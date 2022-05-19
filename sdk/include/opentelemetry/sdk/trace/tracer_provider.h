@@ -11,6 +11,7 @@
 
 #include "opentelemetry/nostd/shared_ptr.h"
 #include "opentelemetry/sdk/resource/resource.h"
+#include "opentelemetry/sdk/trace/aws_xray_id_generator.h"
 #include "opentelemetry/sdk/trace/processor.h"
 #include "opentelemetry/sdk/trace/samplers/always_on.h"
 #include "opentelemetry/sdk/trace/tracer.h"
@@ -42,7 +43,7 @@ public:
       std::unique_ptr<Sampler> sampler = std::unique_ptr<AlwaysOnSampler>(new AlwaysOnSampler),
       std::unique_ptr<opentelemetry::sdk::trace::IdGenerator> id_generator =
           std::unique_ptr<opentelemetry::sdk::trace::IdGenerator>(
-              new RandomIdGenerator())) noexcept;
+              new AwsXrayIdGenerator())) noexcept;
 
   explicit TracerProvider(
       std::vector<std::unique_ptr<SpanProcessor>> &&processors,
@@ -51,7 +52,7 @@ public:
       std::unique_ptr<Sampler> sampler = std::unique_ptr<AlwaysOnSampler>(new AlwaysOnSampler),
       std::unique_ptr<opentelemetry::sdk::trace::IdGenerator> id_generator =
           std::unique_ptr<opentelemetry::sdk::trace::IdGenerator>(
-              new RandomIdGenerator())) noexcept;
+              new AwsXrayIdGenerator())) noexcept;
 
   /**
    * Initialize a new tracer provider with a specified context
